@@ -10,7 +10,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langgraph.graph import StateGraph, START, END
 
-# ==================== ⚙️ 基础网络与配置 ====================
+# ====================  基础网络与配置 ====================
 load_dotenv()
 
 # 彻底移除 os.environ 代理配置，防止底层 HTTP/2 协议发生冲突断开
@@ -29,14 +29,14 @@ class StockState(TypedDict):
     sentiment_report: str
     final_report: str
 
-# 代理公共配置（请确保你的 Clash/v2ray 开启了对应的端口，默认通常是 7890）
+# 代理公共配置（请确保 Clash/v2ray 开启了对应的端口，默认通常是 7890）
 PROXY_ARGS = {
     "proxy": "socks5://127.0.0.1:7897"  # 如果是 HTTP 端口可改为 http://127.0.0.1:7897
 }
 
 # ==================== 节点 1：技术分析 Agent ====================
 def technical_agent(state: StockState) -> Dict[str, Any]:
-    print("📈 [技术分析 Agent] 正在研究K线趋势...")
+    print(" [技术分析 Agent] 正在研究K线趋势...")
     
     # ✨ 核心改进：直接在 client_args 中注入专属代理通道，不走全局环境变量
     llm = ChatGoogleGenerativeAI(
@@ -64,11 +64,11 @@ def technical_agent(state: StockState) -> Dict[str, Any]:
 
 # ==================== 节点 2：基本面分析 Agent ====================
 def fundamental_agent(state: StockState) -> Dict[str, Any]:
-    print("⏳ 正在等待免费额度冷却 (8秒)...")
+    print("⏳正在等待免费额度冷却 (8秒)...")
     time.sleep(8)  
     print("🏢 [基本面 Agent] 正在审计财务报表...")
     
-    # ✨ 核心改进：内部实例化专属代理的大模型
+    # 核心改进：内部实例化专属代理的大模型
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", 
         temperature=0.3, 
@@ -98,11 +98,11 @@ def fundamental_agent(state: StockState) -> Dict[str, Any]:
 
 # ==================== 节点 3：情绪分析 Agent ====================
 def sentiment_agent(state: StockState) -> Dict[str, Any]:
-    print("⏳ 正在等待免费额度冷却 (8秒)...")
+    print("正在等待免费额度冷却 (8秒)...")
     time.sleep(8)  
     print("📰 [情绪分析 Agent] 正在搜集最新新闻媒体舆情...")
     
-    # ✨ 核心改进：内部实例化专属代理的大模型
+    # 核心改进：内部实例化专属代理的大模型
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", 
         temperature=0.3, 
@@ -129,9 +129,9 @@ def sentiment_agent(state: StockState) -> Dict[str, Any]:
 
 # ==================== 节点 4：总编/主管 Agent ====================
 def reporter_agent(state: StockState) -> Dict[str, Any]:
-    print("⏳ 正在等待免费额度冷却 (8秒)...")
+    print("正在等待免费额度冷却 (8秒)...")
     time.sleep(8)  
-    print("✍️  [主管 Agent] 正在撰写高颜值 HTML 研报...")
+    print("[主管 Agent] 正在撰写高颜值 HTML 研报...")
     
     # ✨ 核心改进：内部实例化专属代理的大模型
     llm = ChatGoogleGenerativeAI(
@@ -171,7 +171,7 @@ def reporter_agent(state: StockState) -> Dict[str, Any]:
     })
     return {"final_report": response.content}
 
-# ==================== ⚙️ 编排 LangGraph 工作流 ====================
+# ==================== 编排 LangGraph 工作流 ====================
 workflow = StateGraph(StockState)
 
 workflow.add_node("tech_node", technical_agent)
@@ -187,7 +187,7 @@ workflow.add_edge("report_node", END)
 
 app = workflow.compile()
 
-# ==================== 🚀 运行系统 ====================
+# ====================  运行系统 ====================
 if __name__ == "__main__":
     target_stock = "mu"  
     print(f"🚀 启动 AI 证券分析师团队，目标股票: {target_stock}...\n")
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     with open(file_name, "w", encoding="utf-8") as f:
         f.write(raw_html.strip())
     
-    print(f"\n✨ 报告生成成功！保存为 {file_name}")
-    print(f"🌐 正在为您自动跳转并打开网页报告...")
+    print(f"\n报告生成成功！保存为 {file_name}")
+    print(f"正在为您自动跳转并打开网页报告...")
     
     webbrowser.open(f"file://{os.path.abspath(file_name)}")
