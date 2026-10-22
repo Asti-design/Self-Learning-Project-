@@ -38,7 +38,7 @@ PROXY_ARGS = {
 def technical_agent(state: StockState) -> Dict[str, Any]:
     print(" [技术分析 Agent] 正在研究K线趋势...")
     
-    # ✨ 核心改进：直接在 client_args 中注入专属代理通道，不走全局环境变量
+    # 核心改进：直接在 client_args 中注入专属代理通道，不走全局环境变量
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", 
         temperature=0.3, 
@@ -64,9 +64,9 @@ def technical_agent(state: StockState) -> Dict[str, Any]:
 
 # ==================== 节点 2：基本面分析 Agent ====================
 def fundamental_agent(state: StockState) -> Dict[str, Any]:
-    print("⏳正在等待免费额度冷却 (8秒)...")
+    print("正在等待免费额度冷却 (8秒)...")
     time.sleep(8)  
-    print("🏢 [基本面 Agent] 正在审计财务报表...")
+    print("[基本面 Agent] 正在审计财务报表...")
     
     # 核心改进：内部实例化专属代理的大模型
     llm = ChatGoogleGenerativeAI(
@@ -100,7 +100,7 @@ def fundamental_agent(state: StockState) -> Dict[str, Any]:
 def sentiment_agent(state: StockState) -> Dict[str, Any]:
     print("正在等待免费额度冷却 (8秒)...")
     time.sleep(8)  
-    print("📰 [情绪分析 Agent] 正在搜集最新新闻媒体舆情...")
+    print("[情绪分析 Agent] 正在搜集最新新闻媒体舆情...")
     
     # 核心改进：内部实例化专属代理的大模型
     llm = ChatGoogleGenerativeAI(
@@ -133,7 +133,7 @@ def reporter_agent(state: StockState) -> Dict[str, Any]:
     time.sleep(8)  
     print("[主管 Agent] 正在撰写高颜值 HTML 研报...")
     
-    # ✨ 核心改进：内部实例化专属代理的大模型
+    # 核心改进：内部实例化专属代理的大模型
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", 
         temperature=0.3, 
@@ -190,7 +190,7 @@ app = workflow.compile()
 # ====================  运行系统 ====================
 if __name__ == "__main__":
     target_stock = "mu"  
-    print(f"🚀 启动 AI 证券分析师团队，目标股票: {target_stock}...\n")
+    print(f"启动 AI 证券分析师团队，目标股票: {target_stock}...\n")
     
     initial_state = {"ticker": target_stock}
     final_output = app.invoke(initial_state)
